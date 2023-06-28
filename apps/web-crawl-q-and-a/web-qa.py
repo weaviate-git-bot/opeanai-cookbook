@@ -15,13 +15,14 @@ import tiktoken
 import openai
 import numpy as np
 from openai.embeddings_utils import distances_from_embeddings, cosine_similarity
+import matplotlib.pyplot as plt
 
 # Regex pattern to match a URL
 HTTP_URL_PATTERN = r'^http[s]*://.+'
 
 # Define root domain to crawl
-domain = "openai.com"
-full_url = "https://openai.com/"
+domain = "atroposhealth.com"
+full_url = "https://www.atroposhealth.com/"
 
 # Create a class to parse the HTML and get the hyperlinks
 class HyperlinkParser(HTMLParser):
@@ -176,10 +177,10 @@ def remove_newlines(serie):
 texts=[]
 
 # Get all the text files in the text directory
-for file in os.listdir("text/" + domain + "/"):
+for file in os.listdir("text/" + local_domain + "/"):
 
     # Open the file and read the text
-    with open("text/" + domain + "/" + file, "r", encoding="UTF-8") as f:
+    with open("text/" + local_domain + "/" + file, "r", encoding="UTF-8") as f:
         text = f.read()
 
         # Omit the first 11 lines and the last 4 lines, then replace -, _, and #update with spaces.
@@ -362,9 +363,11 @@ def answer_question(
         print("\n\n")
 
     try:
+        prompt = f"Answer the question based on the context below, and if the question can't be answered based on the context, say \"I don't know\"\n\nContext: {context}\n\n---\n\nQuestion: {question}\nAnswer:"
+        print(prompt)
         # Create a completions using the questin and context
         response = openai.Completion.create(
-            prompt=f"Answer the question based on the context below, and if the question can't be answered based on the context, say \"I don't know\"\n\nContext: {context}\n\n---\n\nQuestion: {question}\nAnswer:",
+            prompt=prompt,
             temperature=0,
             max_tokens=max_tokens,
             top_p=1,
@@ -382,6 +385,7 @@ def answer_question(
 ### Step 13
 ################################################################################
 
-print(answer_question(df, question="What day is it?", debug=False))
-
-print(answer_question(df, question="What is our newest embeddings model?"))
+print(answer_question(df, question="What is Syntegra", debug=False))
+print(answer_question(df, question="What is Atropos?", debug=False))
+print(answer_question(df, question="What does Atropos do?", debug=False))
+print(answer_question(df, question="What is a prognostogram?", debug=False))

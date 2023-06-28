@@ -1,3 +1,9 @@
+# User defined files
+apps/web-crawl-q-and-a/*.ipynb
+apps/web-crawl-q-and-a/pages_crawled/
+apps/web-crawl-q-and-a/pages_processed/
+processed/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -132,3 +138,4 @@ dmypy.json
 *transactions*.jsonl
 /examples/data/transactions*
 *.DS_Store
+/apps/web-crawl-q-and-a/venv/
